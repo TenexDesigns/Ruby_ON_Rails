@@ -43,9 +43,40 @@ from small startups to large-scale enterprise systems.
 
 
 
+More Explanation
+******************************************************************************************************************************
 
+Ruby on Rails (often referred to as Rails or RoR) is a server-side web application framework written in the 
+Ruby programming language en.wikipedia.org. It is built on the Model-View-Controller (MVC) pattern and provides default 
+structures for a database, a web service, and web pages en.wikipedia.org. 
+Rails is known for its convention-over-configuration approach, 
+which simplifies the development process by using default conventions instead of configuration files geeksforgeeks.org.
 
+Ruby on Rails is popular among developers due to its ability to create robust, 
+high-performing web pages quickly and efficiently railsware.com. It is used by many major brands,
+such as Airbnb and Shopify, and has a vibrant, ever-growing community with thousands of user-built gems railsware.com.
 
+Some advantages of using Ruby on Rails include:
+
+Speed and ease of use: Rails allows developers to quickly create and deploy web applications,
+  making the development process more efficient techtarget.com.
+Flexibility: Rails can be used for various types of web development projects,
+  such as long-term projects with large transformations, projects with heavy traffic, 
+  short prototypes or MVPs, and projects requiring a wide range of complex functions geeksforgeeks.org.
+Built-in toolkit: Rails comes with a rich toolkit that covers both frontend and backend concerns,
+  including an object-relational mapper (ORM) called Active Record, which allows developers to interact
+  with a database using Ruby objects railsware.com.
+However, there are also some disadvantages:
+
+Learning curve: Although Rails aims to simplify the development process, it may still require some time 
+  for developers to learn the framework and its conventions geeksforgeeks.org.
+Limited to Ruby: Rails is built on Ruby, which means that developers need to be familiar with the 
+  Ruby programming language codecademy.com.
+In conclusion, Ruby on Rails is a powerful and popular web application framework that offers many 
+advantages for developers, including speed, ease of use, and a rich toolkit. 
+However, it may require some time for developers to learn the framework and its conventions.
+If youre considering whether to use Ruby on Rails for your next development project, 
+is essential to weigh the pros and cons and consult with a qualified development partner to make the best decision 
 
 
 
