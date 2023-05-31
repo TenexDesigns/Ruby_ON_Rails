@@ -15,7 +15,8 @@ end
 The dependent: option in Ruby on Rails is used to specify the behavior of associated objects when the parent object is destroyed.
 
 
-The dependent: :destroy option specified in this line ensures that when a Post is destroyed, 
+The dependent: :destroy
+    option specified in this line ensures that when a Post is destroyed, 
     all associated Comment records are also destroyed. This is known as a cascading delete. 
     In other words, when a Post is deleted, all associated Comment records will be deleted as well to maintain data integrity.
 
@@ -141,7 +142,56 @@ that they should not be destroying.
 
 
 
+MORE EXPLANTION
+*******************************************************************************************************************
 
+
+The :dependent option in Ruby on Rails is used to specify the behavior of associated objects when 
+  the parent object is destroyed. It can be used in belongs_to associations and can take different forms, 
+  such as :destroy, :delete, :destroy_all, and :delete_all stackoverflow.com, stackoverflow.com.
+
+:dependent => :destroy or :dependent => :destroy_all: When the parent object is destroyed, 
+          the associated objects are destroyed by calling their destroy method. 
+          This is useful when you need to perform validations or callbacks on the associated objects before they
+          are deleted from the database.
+class Author < ApplicationRecord
+  has_many :books
+end
+
+class Book < ApplicationRecord
+  belongs_to :author
+end
+If an author is destroyed, their books will also be destroyed, calling their destroy method.
+
+:dependent => :delete or :dependent => :delete_all: When the parent object is destroyed, 
+          the associated objects are deleted directly from the database without calling their destroy method. 
+          This is useful when you dont need to perform any additional actions on the associated objects before deleting them.
+class Author < ApplicationRecord
+  has_many :books
+end
+
+class Book < ApplicationRecord
+  belongs_to :author
+end
+If an author is destroyed, their books will also be deleted directly from the database without calling their destroy method.
+
+Rails 6.1 introduced a new option, :dependent => :destroy_async,
+    which allows associated objects to be destroyed asynchronously using background jobs blog.saeloun.com,
+    planetscale.com. This is useful when you want to avoid running a large number of deletes within a single transaction,
+    which could impact performance.
+
+class Author < ApplicationRecord
+  has_many :books
+end
+
+class Book < ApplicationRecord
+  belongs_to :author
+end
+If an author is destroyed, their books will be destroyed asynchronously using background jobs.
+
+In summary, the :dependent option in Ruby on Rails is used to control the behavior of associated objects when the 
+  parent object is destroyed. It can take different forms, such as :destroy, :delete, :destroy_all, :delete_all,
+          and :destroy_async. Choosing the appropriate form depends on your applications requirements and performance considerations.
 
 
 
