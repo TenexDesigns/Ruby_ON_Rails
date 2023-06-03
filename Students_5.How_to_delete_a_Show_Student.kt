@@ -168,7 +168,9 @@ Step 1: Update the Routes
 
 Open the config/routes.rb file and add the following line:
 
-delete 'students/:id', to: 'students#destroy', as: 'delete_student'
+  get 'students/:id/delete', to: 'students#destroy', as: 'delet_student'
+  delete 'students/:id', to: 'students#destroy', as: 'delete_student'
+
 
 
 
@@ -195,11 +197,40 @@ In the app/views/students/show.html.erb file, add the delete link:
 <p><strong>Last Name:</strong> <%= @student.last_name %></p>
 <p><strong>Email:</strong> <%= @student.email %></p>
 
-<%= link_to 'Edit', edit_student_path(@student) %>
-<%= link_to 'Delete', delete_student_path(@student), method: :delete, data: { confirm: 'Are you sure?' } %>
+      <p> <%= link_to 'Back','/students' %></p>
+      <p> <%= link_to 'Edit',"/students/#{@student.id}/edit" %></p>
+      <p> <%= link_to 'Delete',"/students/#{@student.id}/delete" %></p>
+
   
-  
-  
+  Step 4: Create a destroy.html.erb file
+This will enable you to delete the select student
+
+<h1>Edit Student</h1>
+
+<%= form_for @student,url: "/students/#{@student.id}/delete", method: :delete do |f| %>
+  <p>
+    <%= f.label :first_name %><br>
+    <%= f.text_field :first_name %>
+  </p>
+  <p>
+    <%= f.label :last_name %><br>
+    <%= f.text_field :last_name %>
+  </p>
+  <p>
+    <%= f.label :email %><br>
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= f.submit 'Delete' %>
+  </p>
+  <p>
+    
+  </p>
+<% end %>
+
+
+
+
   
 Step 4: Restart the Server
 
