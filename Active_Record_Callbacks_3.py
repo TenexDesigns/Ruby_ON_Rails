@@ -70,7 +70,40 @@ class Post < ApplicationRecord
     comments.destroy_all
   end
 end
-In this example, before a Post model is destroyed, the cleanup_associations method is called to delete all associated comments.
+
+
+
+before_update
+------------------------------------------------------------------------------------------------
+
+Yes, there is a before_update callback in Rails that is triggered before a model is updated and saved to the database. 
+This callback allows you to perform actions specifically for the update operation.
+
+Heres an example of how you can use the before_update callback in Rails:
+
+
+class User < ApplicationRecord
+  before_update :send_notification_email
+
+  private
+
+  def send_notification_email
+    if email_changed?
+      NotificationMailer.email_changed_notification(self).deliver_now
+    end
+  end
+end
+
+In this example, before the User model is updated, the send_notification_email method is called.
+It checks if the email attribute has changed using the email_changed? method.
+If the email has indeed changed, it sends a notification email using the NotificationMailer.
+
+The before_update callback is useful when you want to perform specific actions or validations before an update occurs. 
+It allows you to modify data or trigger other operations based on the changes made to the model attributes.
+
+
+In this example, before a Post model is destroyed,
+the cleanup_associations method is called to delete all associated comments.
 
 These are just a few examples of the available Active Record callbacks in Rails. 
 You can use callbacks to add custom logic at various stages of a models life cycle,
@@ -78,6 +111,31 @@ allowing you to perform specific actions based on the events triggered by model 
 
 
 
+before_update
+------------------------------------------------------------------------------------------------
+
+
+Yes, there is an after_update callback in Rails that is triggered after a model is updated and saved to the database. 
+This callback allows you to perform actions specifically after the update operation has completed.
+
+Heres an example of how you can use the after_update callback in Rails:
+
+
+class User < ApplicationRecord
+  after_update :log_update_details
+
+  private
+
+  def log_update_details
+    logger.info("User #{id} was updated at #{updated_at}")
+  end
+end
+In this example, after the User model is updated and saved, the log_update_details method is called. 
+It logs a message containing the users ID and the timestamp of the update using the Rails logger.
+
+The after_update callback is useful when you want to perform certain actions or tasks after an update has been 
+successfully completed. It can be used for logging, triggering notifications, updating associated records,
+or any other post-update operations you may need.
 
 
 
