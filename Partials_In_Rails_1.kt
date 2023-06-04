@@ -42,6 +42,15 @@ passing in the @student instance variable as the local variable student.
 
 
 
+Passing Data to a Partial:
+
+You can pass additional data to a partial by specifying local variables.
+
+
+<%= render partial: 'student_info', locals: { student: @student, show_email: true } %>
+In the above example, we pass two local variables to the _student_info partial: student and show_email.
+These variables can be accessed within the partial as regular local variables.
+
 
 
 Rendering a Collection of Partials:
@@ -54,22 +63,6 @@ You can also render a collection of partials, passing in a collection of objects
 In this case, the render method is used with the partial option set to 'student_info' and the collection
 option set to @students. Each student object in @students will be passed to the partial as a local variable 
 named after the partial (e.g., student).
-
-
-
-
-
-
-Passing Data to a Partial:
-
-You can pass additional data to a partial by specifying local variables.
-
-
-<%= render partial: 'student_info', locals: { student: @student, show_email: true } %>
-In the above example, we pass two local variables to the _student_info partial: student and show_email.
-These variables can be accessed within the partial as regular local variables.
-
-
 
 
 
@@ -104,6 +97,57 @@ They help in reducing code duplication and make it easier to manage complex view
 
 
 MORE EXPLANTION
+*********************************************************************************************************************************
+Partials in Ruby on Rails are reusable pieces of code that can be used to break up large views into more manageable chunks. 
+They are similar to functions in other programming languages, as they allow you to write a piece of code once and reuse 
+it throughout your application. This helps you keep your code DRY (Dont Repeat Yourself) 
+and makes it easier to maintain and modify. [3]
+
+To render a partial as part of a view, you use the render method within the view.
+For example, to render a file named _menu.html.erb at that point within the view being rendered,
+you can use the following code:
+
+<%= render "menu" %>
+Note the leading underscore character: partials are named with a leading underscore to distinguish them 
+from regular views, even though they are referred to without the underscore. This holds true even when 
+youre pulling in a partial from another folder. For example:
+
+<%= render "shared/menu" %>
+That code will pull in the partial from app/views/shared/_menu.html.erb. [0]
+
+If you want to keep your code simple and/or reuse a block of code in multiple files,
+then you can store that code in an html.erb file called a partial. Create a file to store your code 
+in and name it using the syntax: _partial.html.erb. In the file where you want to include the code from a partial, insert the tag:
+
+<%= render partial "shared/partial" %>
+You’ll see your page with the code from the partial included. [4]
+
+Partials are a standard Rails way to extract a piece of template code to its own file. 
+The partial then can be called (rendered) from other templates, helpers, or controllers.
+Partial templates are HTML-centric, but they are not that great if you need to add some non-trivial logic. [7]
+
+One way to use partials is to treat them as the equivalent of
+subroutines: as a way to move details out of a view so that you can grasp whats going on more easily.
+For example, you might have a view that looks like this:
+
+<%= render "shared/ad_banner" %>
+<h1>Products</h1>
+<p>Here are a few of our fine products:</p>
+...
+<%= render "shared/footer" %>
+Here, the _ad_banner.html.erb and _footer.html.erb partials could contain content that is shared by many
+pages in your application. You dont need to see the details of these sections when youre concentrating on a particular page. [0]
+
+Partials can also be used alongside helpers, which are simple Ruby functions that live inside a module. 
+Helpers are ruby-centric and support any API style for passing parameters that is supported by your Ruby version,
+including keyword arguments. However, helpers are global and not isolated from instance variables, 
+which can make them less flexible than partials. [7]
+
+Overall, partials are a powerful tool in Ruby on Rails that allow you to create more modular and maintainable code. 
+By breaking up large views into smaller, reusable pieces, you can keep your code DRY and make it easier to maintain and modify
+  
+  
+  MORE EXPLANTION
 *********************************************************************************************************************************
 
 
