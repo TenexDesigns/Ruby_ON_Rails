@@ -72,14 +72,61 @@ you can call the mailer method from a controller action to send the email.
 
 
 
+MORE EXPLANTION
+********************************************************************************************************************
 
 
 
 
 
+ActionMailer is a component in Ruby on Rails that facilitates sending emails from your application.
+It provides a set of classes and methods to compose and deliver email messages.
+Here's an overview of how ActionMailer works and how to send emails in Rails:
+
+Configuration: To use ActionMailer, you need to configure the email delivery settings in your Rails application. 
+  This typically involves specifying the SMTP server details, authentication credentials, and other options.
+  The configuration can be done in the config/environments/*.rb files or in an initializer file like config/initializers/mail.rb.
+
+Mailer Class: In Rails, you define mailers as Ruby classes that inherit from ActionMailer::Base.
+      Each mailer represents a logical group of related email functionality.
+      For example, you might have a UserMailer class for sending emails related to user actions. Mailer classes are typically stored in the app/mailers directory.
+
+Mailer Methods: Within a mailer class, you define methods that correspond to different email templates or types.
+  These methods are responsible for composing the email content and setting up the recipients,
+  subject, and other details. The method names typically match the template names. For example:
 
 
+class UserMailer < ActionMailer::Base
+  def welcome_email(user)
+    @user = user
+    mail(to: user.email, subject: "Welcome to My App!")
+  end
+end
+In this example, the welcome_email method sets up an instance variable @user and calls mail to compose 
+and send the email to the user's email address.
 
+Views and Templates: ActionMailer uses view templates to define the content of the email messages.
+  These templates are similar to regular Rails view templates and are stored in the app/views directory within 
+  a folder corresponding to the mailer class name. For example, the view template for the welcome_email method 
+  in the UserMailer class would
+  be stored at app/views/user_mailer/welcome_email.html.erb or app/views/user_mailer/welcome_email.text.erb, depending on 
+  the desired format (HTML or plain text).
+
+Sending Emails: To send an email, you instantiate the mailer class and call the method corresponding to the email you want to send.
+  For example:
+
+ruby
+Copy code
+UserMailer.welcome_email(user).deliver_now
+In this example, the welcome_email method is called on the UserMailer class and passed the user object.
+The deliver_now method triggers the email delivery immediately.
+
+ActionMailer provides additional features like attachments, inline images, and multipart emails. 
+You can also configure default email headers, handle email layouts, and use email previews for testing.
+
+To summarize, ActionMailer is a powerful component in Rails for sending emails. 
+By defining mailer classes and methods, you can easily compose and send email messages from your application.
+It provides a straightforward way to integrate email functionality and keep your code organized.
 
 
 
