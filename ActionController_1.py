@@ -5,7 +5,8 @@ session management, and response generation.
 
 Here are some key aspects of ActionController:
 
-Routing: ActionController works in conjunction with the Rails router to map incoming requests to specific controller actions. 
+Routing: ActionController works in conjunction with the Rails router to map incoming requests to specific controller 
+actions. 
   The router determines which controller and action should handle a particular URL.
 
 Controller Actions: Controllers in Rails are Ruby classes that inherit from ActionController::Base. 
