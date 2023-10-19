@@ -1,3 +1,4 @@
+
 To create a form in Rails to receive user data and create a new student object with fields for first_name,
 last_name, and email, you can follow these steps:
 
