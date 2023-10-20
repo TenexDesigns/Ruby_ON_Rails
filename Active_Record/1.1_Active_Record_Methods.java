@@ -1,3 +1,40 @@
+
+Active Record is the Object-Relational Mapping (ORM) framework in Ruby on Rails that simplifies database interactions by representing database tables as Ruby objects.
+  It provides an easy way to perform database operations and allows you to work with databases using Ruby code.
+
+Active Record simplifies database operations and makes working with databases more Ruby-like.
+  It abstracts away much of the SQL, allowing you to focus on the logic of your application.
+
+  Here is an Example
+
+Suppose you have a "students" table in your database, and you want to interact with it using Active Record. First, you need to create a corresponding "Student" model. In Rails, you can do this using a generator:
+
+```bash
+rails generate model Student name:string age:integer
+```
+
+This command generates a "Student" model with attributes "name" and "age." Then, you can create a migration to create the "students" table in the database:
+
+```bash
+rails db:migrate
+```
+
+Now, you can use Active Record to interact with the "students" table. For example, you can create a new student, save it to the database, and retrieve it:
+
+```ruby
+# Create a new student
+student = Student.new(name: "John", age: 20)
+
+# Save the student to the database
+student.save
+
+# Find a student by ID
+found_student = Student.find(1)
+```
+
+
+-------------- WHAT ARE ACTIVE RECORD METHODS ---------------------
+
 Active Record  methods for querying, associations, validations, and more explained with code samples
 
 
@@ -197,3 +234,61 @@ These examples demonstrate some commonly used Active Record methods for querying
 Active Record provides many more methods to handle various scenarios and relationships between models.
 Refer to the Rails documentation for a comprehensive list of Active Record methods and their usage.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Active Record is the Object-Relational Mapping (ORM) framework in Ruby on Rails that simplifies database interactions by representing database tables as Ruby objects. It provides an easy way to perform database operations and allows you to work with databases using Ruby code.
+
+Here's a basic example of how Active Record works in Rails:
+
+
+
+You can also query records based on specific conditions using Active Record:
+
+```ruby
+# Find students with a specific name
+johns = Student.where(name: "John")
+
+# Find the first student with a specific age
+first_twenty_year_old = Student.where(age: 20).first
+```
+
+Active Record simplifies database operations and makes working with databases more Ruby-like. It abstracts away much of the SQL, allowing you to focus on the logic of your application.
+
+Please note that this is just a basic introduction to Active Record in Rails. In a real application, you would perform more complex database operations and establish associations between models. The code samples provided should give you an idea of how to get started with Active Record in Rails.
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
