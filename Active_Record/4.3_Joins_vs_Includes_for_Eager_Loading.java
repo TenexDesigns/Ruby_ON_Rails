@@ -11,6 +11,14 @@ JOIN authors ON books.author_id = authors.id
 ```
 
 Joins can be very powerful, but they can also be slow, especially if you are retrieving a large amount of data.
+However, it does not load the associated records into memory as separate objects. Instead, it returns a combined result set that includes columns from both tables.
+For example, if you have a Book model that belongs to an Author model, you can use joins to retrieve books along with their associated authors:
+
+books = Book.joins(:author)
+   
+This will execute an SQL join query that retrieves books and their associated authors. However, the result will be a combined result set, and you won't be able to directly access the author objects as separate entities.
+
+   
 
 **Includes**
 
@@ -20,11 +28,33 @@ For example, the following code would eagerly load all of the associated authors
 
 ```ruby
 books = Book.includes(:author)
-```
+
+   
+The includes method, on the other hand, performs eager loading of associated records. It retrieves the main records and their associated records in a single query,
+   and it loads the associated records into memory as separate objects. This can help avoid the N+1 query problem, where multiple queries are executed to retrieve associated records for each main record.
+
+
+
+   This will execute a query that retrieves books and their associated authors, and it will load the authors into memory as separate objects. This allows you to directly access the author objects and perform operations on them.
+
+   
+   
 
 Includes can significantly improve the performance of your application, especially if you are retrieving a large amount of data from multiple tables.
 
+
+
+
+   
 **Which one should you use?**
+
+
+In summary, joins performs an SQL join and returns a combined result set, while includes performs eager loading and loads associated records into memory as separate objects. The choice between joins and includes depends on your 
+   specific use case and whether you need to access the associated records as separate objects or just retrieve a combined result set.
+
+
+
+   
 
 In general, you should use includes whenever possible. It is more efficient and easier to use than joins. However, there are some cases where you may need to use a join:
 
