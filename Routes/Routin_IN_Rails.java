@@ -1,3 +1,68 @@
+
+In Ruby on Rails, routing is the process of mapping incoming HTTP requests to controller actions in your application. 
+The routes define the URLs that users can visit and the corresponding actions that should be executed.
+Heres an explanation of routing in Rails with code samples:
+
+Route Definition:
+In the config/routes.rb file, you define the routes for your application.
+Each route maps a URL pattern to a controller action. Here's an example:
+
+
+Rails.application.routes.draw do
+  get 'articles', to: 'articles#index'
+  post 'articles', to: 'articles#create'
+  get 'articles/new', to: 'articles#new'
+  get 'articles/:id', to: 'articles#show', as: 'article'
+  get 'articles/:id/edit', to: 'articles#edit', as: 'edit_article'
+  patch 'articles/:id', to: 'articles#update'
+  delete 'articles/:id', to: 'articles#destroy'
+end
+
+  
+In the above code, different HTTP methods (get, post, patch, delete) are used along with the URL pattern 
+and the corresponding controller action.
+
+Controller and Action:
+Each route is mapped to a controller and its action. The controller handles the logic and the action performs a specific task. 
+For example, in the routes above,
+the articles URL is mapped to the index action in the ArticlesController. Similarly, articles/:id is mapped to the show action.
+
+Named Routes:
+Using the as option in the route definition, you can assign a name to a route.
+This creates a named route helper that can be used in your application. 
+For example, as: 'article' creates a named route helper called article_path, which can be used to generate URLs.
+
+URL Helpers:
+Rails provides URL helper methods that you can use to generate URLs for your routes. 
+These methods follow the naming conventions created by the routes. 
+For example, article_path(id: 1) will generate the URL /articles/1.
+
+RESTful Routes:
+Rails encourages RESTful routing, which provides a consistent and predictable way to define routes
+for CRUD (Create, Read, Update, Delete) operations. The resources method can be used to define RESTful routes for a resource.
+For example:
+
+
+Rails.application.routes.draw do
+  resources :articles
+end
+This single line will generate all the necessary routes for CRUD operations on the articles resource.
+
+Routing in Rails allows you to define the URLs for your application and map them to specific controller actions. 
+It provides a clean and organized way to handle incoming requests. 
+By following RESTful conventions, you can build efficient and maintainable applications.
+
+
+
+
+
+
+
+
+MORE EXPLANATION
+****************************************************************************************************************************
+
+
 Rails routing is a mechanism that connects incoming HTTP requests to the appropriate code in
 your applications controllers and generates URLs without hard-coding them as strings guides.rubyonrails.org.
 Routes are defined in the config/routes.rb file guides.rubyonrails.org.
@@ -59,73 +124,6 @@ In summary, Rails routing connects incoming HTTP requests to the appropriate cod
 applications controllers and helps generate URLs without hard-coding them as strings.
 Routes are defined in the config/routes.rb file, and you can use resourceful style or match style to define routes.
 Route parameters and constraints can be used to create more advanced routing scenarios.
-
-
-
-
-
-
-
-
-
-
-MORE EXPLANATION
-****************************************************************************************************************************
-
-
-In Ruby on Rails, routing is the process of mapping incoming HTTP requests to controller actions in your application. 
-The routes define the URLs that users can visit and the corresponding actions that should be executed.
-Heres an explanation of routing in Rails with code samples:
-
-Route Definition:
-In the config/routes.rb file, you define the routes for your application.
-Each route maps a URL pattern to a controller action. Here's an example:
-
-
-Rails.application.routes.draw do
-  get 'articles', to: 'articles#index'
-  post 'articles', to: 'articles#create'
-  get 'articles/new', to: 'articles#new'
-  get 'articles/:id', to: 'articles#show', as: 'article'
-  get 'articles/:id/edit', to: 'articles#edit', as: 'edit_article'
-  patch 'articles/:id', to: 'articles#update'
-  delete 'articles/:id', to: 'articles#destroy'
-end
-In the above code, different HTTP methods (get, post, patch, delete) are used along with the URL pattern 
-and the corresponding controller action.
-
-Controller and Action:
-Each route is mapped to a controller and its action. The controller handles the logic and the action performs a specific task. 
-For example, in the routes above,
-the articles URL is mapped to the index action in the ArticlesController. Similarly, articles/:id is mapped to the show action.
-
-Named Routes:
-Using the as option in the route definition, you can assign a name to a route.
-This creates a named route helper that can be used in your application. 
-For example, as: 'article' creates a named route helper called article_path, which can be used to generate URLs.
-
-URL Helpers:
-Rails provides URL helper methods that you can use to generate URLs for your routes. 
-These methods follow the naming conventions created by the routes. 
-For example, article_path(id: 1) will generate the URL /articles/1.
-
-RESTful Routes:
-Rails encourages RESTful routing, which provides a consistent and predictable way to define routes
-for CRUD (Create, Read, Update, Delete) operations. The resources method can be used to define RESTful routes for a resource.
-For example:
-
-
-Rails.application.routes.draw do
-  resources :articles
-end
-This single line will generate all the necessary routes for CRUD operations on the articles resource.
-
-Routing in Rails allows you to define the URLs for your application and map them to specific controller actions. 
-It provides a clean and organized way to handle incoming requests. 
-By following RESTful conventions, you can build efficient and maintainable applications.
-
-
-
 
 
 
