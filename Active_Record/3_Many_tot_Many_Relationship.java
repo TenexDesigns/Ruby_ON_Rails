@@ -1,4 +1,4 @@
-The relationship you've described between courses and students is a classic example of a many-to-many association. In Rails, you can represent this relationship using the `has_and_belongs_to_many` association (HABTM) or the `has_many :through` association. The `has_many :through` approach is generally preferred as it provides more flexibility and allows you to add additional attributes to the join table if needed. Here's how to represent the relationship using both approaches:
+The relationship yove described between courses and students is a classic example of a many-to-many association. In Rails, you can represent this relationship using the `has_and_belongs_to_many` association (HABTM) or the `has_many :through` association. The `has_many :through` approach is generally preferred as it provides more flexibility and allows you to add additional attributes to the join table if needed. Here's how to represent the relationship using both approaches:
 
 **Option 1: Using `has_and_belongs_to_many` (HABTM):**
 
