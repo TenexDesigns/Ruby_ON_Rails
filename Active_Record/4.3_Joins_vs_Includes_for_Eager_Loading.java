@@ -1,3 +1,57 @@
+Joins and includes are both used to retrieve data from multiple tables in a Rails application. However, they have different implications for performance.
+
+**Joins**
+
+A join is a SQL operation that combines two or more tables based on a common field. For example, the following join would retrieve all books and their associated authors:
+
+```sql
+SELECT books.*, authors.name
+FROM books
+JOIN authors ON books.author_id = authors.id
+```
+
+Joins can be very powerful, but they can also be slow, especially if you are retrieving a large amount of data.
+
+**Includes**
+
+Includes is an ActiveRecord feature that allows you to eagerly load associated records. This means that ActiveRecord will retrieve all of the associated records in advance, instead of making a separate query for each associated record.
+
+For example, the following code would eagerly load all of the associated authors for the `books` variable:
+
+```ruby
+books = Book.includes(:author)
+```
+
+Includes can significantly improve the performance of your application, especially if you are retrieving a large amount of data from multiple tables.
+
+**Which one should you use?**
+
+In general, you should use includes whenever possible. It is more efficient and easier to use than joins. However, there are some cases where you may need to use a join:
+
+* If you need to filter the associated records. For example, the following code would retrieve all books with an author named "J.K. Rowling":
+
+```ruby
+books = Book.joins(:author).where(authors: { name: 'J.K. Rowling' })
+```
+
+* If you need to sort the associated records. For example, the following code would retrieve all books ordered by the author's name:
+
+```ruby
+books = Book.joins(:author).order('authors.name ASC')
+```
+
+If you are unsure which one to use, it is always best to consult the Rails documentation or ask for help from a more experienced developer.
+
+
+
+
+   
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------
+
 Certainly! Here's an explanation of these Active Record methods with code samples:
 
 1. **Joins:**
