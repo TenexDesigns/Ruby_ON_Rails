@@ -82,6 +82,35 @@ If you are unsure which one to use, it is always best to consult the Rails docum
 
 ------------------------------------------------------------------------------------------------------------------------------
 
+In the context of Active Record associations, `joins` and `includes` are used to load associated records, but they have different behaviors.
+
+1. **Joins**: The `joins` method performs an SQL join between two or more tables based on the association defined in the model. It allows you to retrieve records from the main table along with associated records from the joined table(s). However, it does not load the associated records into memory as separate objects. Instead, it returns a combined result set that includes columns from both tables.
+
+For example, if you have a `Book` model that belongs to an `Author` model, you can use `joins` to retrieve books along with their associated authors:
+
+```ruby
+books = Book.joins(:author)
+```
+
+This will execute an SQL join query that retrieves books and their associated authors. However, the result will be a combined result set, and you won't be able to directly access the author objects as separate entities.
+
+2. **Includes**: The `includes` method, on the other hand, performs eager loading of associated records. It retrieves the main records and their associated records in a single query, and it loads the associated records into memory as separate objects. This can help avoid the N+1 query problem, where multiple queries are executed to retrieve associated records for each main record.
+
+Using the same example, if you want to retrieve books along with their associated authors and load the authors into memory as separate objects, you can use `includes`:
+
+```ruby
+books = Book.includes(:author)
+```
+
+This will execute a query that retrieves books and their associated authors, and it will load the authors into memory as separate objects. This allows you to directly access the author objects and perform operations on them.
+
+In summary, `joins` performs an SQL join and returns a combined result set, while `includes` performs eager loading and loads associated records into memory as separate objects. The choice between `joins` and `includes` depends on your specific use case and whether you need to access the associated records as separate objects or just retrieve a combined result set.
+
+   
+
+
+   --------------------------------------------------------------
+
 Certainly! Here's an explanation of these Active Record methods with code samples:
 
 1. **Joins:**
