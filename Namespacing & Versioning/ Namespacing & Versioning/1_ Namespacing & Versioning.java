@@ -66,4 +66,25 @@ Namespacing and versioning are important for keeping your code organized and mai
 
 
 
+  Using Modules:
+
+Modules can be used for namespacing in Rails. You can define a module and place your controllers and other related files inside it. For example:
+
+ruby
+Copy code
+# app/controllers/api/v1/users_controller.rb
+module Api
+  module V1
+    class UsersController < ApplicationController
+      # Controller actions
+    end
+  end
+end
+This code defines the UsersController under the Api::V1 module. The routes would match this structure accordingly.
+
+When using versioning, you can place the controllers and routes for different versions in separate directories under app/controllers and config/routes.rb. This keeps the code organized and follows a logical structure.
+
+  
+
+
   ....
