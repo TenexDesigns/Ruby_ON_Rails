@@ -1,39 +1,115 @@
-To allow for partial updates in your Rails application, you can use the `update` method as you originally mentioned. However, you need to make some adjustments in your code to handle partial updates more gracefully. Here's how you can modify your controller and update action:
+To allow for partial updates in your Rails application, you can use the update method as you originally mentioned. However, you need to make some adjustments in your code to handle partial updates more gracefully.
+  Here's how you can modify your controller and update action:
 
-```ruby
+
+Modify the Book Model and the controller
+
+
+----------------------------------------------------------------------------
+
+
+class Book < ApplicationRecord
+  validates :author, presence: true, length: { in: 8..15 }, on: :create
+  validates :title, presence: true, length: { in: 8..15 }, on: :create
+
+  validates :author,  length: { in: 8..15 }, if:-> { author.present? }, on: :update
+  validates :title, length: { in: 8..15 }, if: -> { title.present? }, on: :update
+
+
+end
+
+
+----------------------------------------------------------------------------
 module V1
   class BooksController < ApplicationController
-    before_action :find_book, only: [:show, :update, :destroy]
 
-    # Existing index and create actions...
+
+    before_action :find_book, only: [:show, :update, :destroy]
 
     def show
       render json: @book
     end
 
     def update
-      if @book.update(book_params)
+
+      if @book.update(book_params_update)
         render json: @book
       else
         render json: @book.errors, status: :unprocessable_entity
       end
     end
 
-    # Existing destroy action...
 
-    private
 
-    def find_book
-      @book = Book.find(params[:id])
-    rescue ActiveRecord::RecordNotFound
-      render json: { error: 'Book not found' }, status: :not_found
-    end
 
-    def book_params
-      params.require(:book).permit(:title, :author)
-    end
+
+
+
+
+
+
+
+      def index
+
+        render json: Book.all
+      end
+
+
+
+      def create
+      book= Book.new(book_params)
+
+      if book.save
+        render json: book, status: :created
+      else
+        render json: book.errors , status: :unprocessable_entity
+
+      end
+
+      end
+
+
+
+      def destroy
+      user = Book.find(params[:id])
+
+      user.destroy!
+      render json: { message: 'Book successfully deleted' }, status: :ok
+      rescue
+          render json: { error: 'Failed to delete Book ' }, status: :unprocessable_entity
+
+      end
+
+
+
+      private
+      def book_params
+
+        params.require(:book).permit(:title,:author)
+      end
+
+      def book_params_update
+        permitted_params = {}
+        permitted_params[:title] = params[:book][:title] if params.dig(:book, :title)
+        permitted_params[:author] = params[:book][:author] if params.dig(:book, :author)
+        permitted_params
+      end
+
+
+
+      def find_book
+        @book = Book.find(params[:id])
+      rescue ActiveRecord::RecordNotFound => e
+        render json: { error: "Book not found: #{e.message}" }, status: :not_found
+
+      end
+
+
+
   end
+
 end
+
 ```
 
 In this code, you are using `params.require(:book).permit(:title, :author)` to permit both `:title` and `:author` for updates. However, to allow partial updates, you can modify the `book_params` method to permit these attributes conditionally based on the presence of the parameters in the request. Here's an example of how you can do that:
@@ -50,9 +126,58 @@ end
 This modification ensures that you only update the attributes that are provided in the request, allowing partial updates. If `params[:book][:title]` is present, it updates the `title`, and if `params[:book][:author]` is present, it updates the `author`. If both are present, it updates both.
 
 With this change, you can send a request to update the book with only the attributes you want to change, and it won't make it mandatory to update both `title` and `author`.
+  
+  
+  
+  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------  ---------
+In the provided code, you are making adjustments to your Rails controller and model to allow for partial updates. This means you can send a request to update a `Book` object with only the attributes you want to change, rather than requiring all attributes to be present in the update request.
 
+Here's a breakdown of the code changes and what they do:
 
+1. **Model (`Book`) Changes**:
 
+   You have made changes to the model's validations, specifically for the `:author` and `:title` attributes. You've added conditional validations that only apply during the `:update` context. These validations ensure that if an attribute is provided in the update request, it must meet the length criteria. If the attribute is not provided in the request, the validation is skipped. This is essential to allow partial updates:
+
+   ```ruby
+   validates :author, length: { in: 8..15 }, if: -> { author.present? }, on: :update
+   validates :title, length: { in: 8..15 }, if: -> { title.present? }, on: :update
+   ```
+
+2. **Controller (`BooksController`) Changes**:
+
+   - In the `update` action, you are using the `book_params_update` method to permit attributes based on their presence in the `params`:
+
+     ```ruby
+     def update
+       if @book.update(book_params_update)
+         render json: @book
+       else
+         render json: @book.errors, status: :unprocessable_entity
+       end
+     end
+     ```
+
+   - The `book_params_update` method is defined to conditionally permit `:title` and `:author` attributes based on their presence in the `params` using `params.dig(:book, :title)` and `params.dig(:book, :author)`:
+
+     ```ruby
+     def book_params_update
+       permitted_params = {}
+       permitted_params[:title] = params[:book][:title] if params.dig(:book, :title)
+       permitted_params[:author] = params[:book][:author] if params.dig(:book, :author)
+       permitted_params
+     end
+     ```
+
+   - The `book_params` method, used for creating a new book, continues to permit both `:title` and `:author` without conditionals:
+
+     ```ruby
+     def book_params
+       params.require(:book).permit(:title, :author)
+     end
+     ```
+
+These changes in the controller and model allow you to perform partial updates on a `Book` object. If you send a request to update a book with only the attributes you want to change, it will update those attributes without requiring all attributes to be present in the request. This provides more flexibility when updating `Book` records in your Rails application.
+  
 
 
 
