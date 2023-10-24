@@ -126,8 +126,38 @@ This makes it very useful when you're working with nested data structures and wa
 
 
 
+The dig method vs the present? methos
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+  The `dig` method and the `.present?` method have similar purposes, but they are used in slightly different contexts, and the behavior is not identical.
 
+1. **`dig` Method:**
+   - `dig` is used for safely navigating and accessing nested elements within hashes and arrays. It returns `nil` if any intermediate key or index is missing.
+   - It's used to avoid errors when accessing potentially missing keys in nested data structures.
+   - `dig` is available for both hashes and arrays.
+
+Example:
+```ruby
+value = hash.dig(:a, :b, :c)
+```
+
+2. **`.present?` Method:**
+   - `.present?` is a method used with objects like strings, arrays, and hashes to check if the object is non-empty. It returns `true` if the object has content and `false` if it's empty or `nil`.
+   - It's primarily used for checking if an object has meaningful content.
+   - `.present?` is not a method of hashes or arrays but rather an ActiveSupport method available in Ruby on Rails.
+
+Example:
+```ruby
+params[:book][:title].present?
+```
+
+So, in your example:
+
+```ruby
+params[:book][:title] if params[:book][:title].present?
+```
+
+This code first checks if `params[:book][:title]` is non-empty (using `.present?`) and then returns it if it's non-empty. If it's empty or `nil`, it returns `nil`. This is different from the behavior of `dig`, which would return `nil` if any of the keys (`:book`, `:title`) in the nested structure were missing.
 
 
   
