@@ -7,8 +7,8 @@ class Book < ApplicationRecord
   validates :author, presence: true, length: { in: 8..15 }, on: :create
   validates :title, presence: true, length: { in: 8..15 }, on: :create
 
-  validates :author, presence: true, length: { in: 8..15 }, if: :author_provided?, on: :update
-  validates :title, presence: true, length: { in: 8..15 }, if: :title_provided?, on: :update
+  validates :author,  length: { in: 8..15 }, if: :author_provided?, on: :update  // Remove the resnce: true 
+  validates :title,  length: { in: 8..15 }, if: :title_provided?, on: :update   // Remove the resnce: true 
 
   def author_provided?
     author.present?
