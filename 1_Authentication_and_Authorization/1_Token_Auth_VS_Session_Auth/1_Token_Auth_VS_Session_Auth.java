@@ -14,13 +14,84 @@ Token-based authentication:
    This approach uses a token to authenticate the user. The token is typically sent to the server on every request. The server verifies the token and allows the request if the token is valid.
 
    
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+### Authentication, Authorization, and Sessions in Rails
+
+**Authentication** is the process of verifying the identity of a user. **Authorization** is the process of determining whether a user has permission to access a particular resource. **Sessions** are used to track a user's state across multiple requests.
+
+#### Ways of doing it in Rails
+
+There are two main ways to implement authentication and authorization in Rails:
 
 
+1. **Session-based authentication:**
+   This is the most common approach. When a user logs in, a session is created and a cookie is set on the user's browser. This cookie contains a session ID, which is used to identify the user on subsequent requests.
 
+2. **Token-based authentication:** 
+   This approach uses a token to authenticate the user. The token is typically sent to the server on every request. The server verifies the token and allows the request if the token is valid.
 
+#### JWT (JSON Web Token)
 
+JWT is a token-based authentication mechanism that is commonly used in Rails applications. JWT tokens are signed and encrypted, which makes them tamper-proof. JWT tokens can also be used to store information about the user, such as their role and permissions.
 
+#### Create user model to sign in, sign out, and log in
 
+Here is a simple example of a user model for signing in, signing out, and logging in:
+
+```ruby
+class User < ApplicationRecord
+  has_secure_password
+
+  def sign_in
+    session[:user_id] = id
+  end
+
+  def signed_in?
+    session[:user_id] == id
+  end
+
+  def sign_out
+    session[:user_id] = nil
+  end
+end
+```
+
+To sign in a user, you can call the `sign_in` method on the user object. This will create a session and set a cookie on the user's browser.
+
+To check if a user is signed in, you can call the `signed_in?` method on the user object. This method will return `true` if the user is signed in and `false` otherwise.
+
+To sign out a user, you can call the `sign_out` method on the user object. This will destroy the session and remove the cookie from the user's browser.
+
+#### Using JWT for authentication
+
+To use JWT for authentication, you need to install a JWT gem, such as `jwt`. Once you have installed the gem, you can use it to generate and verify JWT tokens.
+
+Here is a simple example of how to generate and verify JWT tokens:
+
+```ruby
+require 'jwt'
+
+# Generate a JWT token
+token = JWT.encode(
+  { user_id: 1 },
+  'secret',
+  'HS256'
+)
+
+# Verify a JWT token
+decoded_token = JWT.decode(token, 'secret', true, algorithm: 'HS256')
+
+# Get the user ID from the decoded token
+user_id = decoded_token['user_id']
+```
+
+You can use the JWT token to authenticate the user on subsequent requests. For example, you can send the JWT token in the `Authorization` header of the request. The server can then verify the token and allow the request if the token is valid.
+
+#### Conclusion
+
+Authentication, authorization, and sessions are important concepts in Rails applications. There are two main ways to implement authentication and authorization in Rails: session-based authentication and token-based authentication. JWT is a popular token-based authentication mechanism that can be used in Rails applications.
+
+--------------------------------------------------------------------------------------------------------------------------------------------------------
 
 Session-based authentication and token-based authentication are two common approaches to implement authentication in Rails applications. Here's an overview of each approach, how to implement them in Rails, and their best use cases:
 
