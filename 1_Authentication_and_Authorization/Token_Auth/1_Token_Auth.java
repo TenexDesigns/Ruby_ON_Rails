@@ -3,6 +3,7 @@ To implement token-based authentication in Rails, you can use third-party librar
 1. Add the `devise-jwt` gem to your Gemfile and run `bundle install`:
 
 ```ruby
+gem 'devise'
 gem 'devise-jwt'
 ```
 
