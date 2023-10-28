@@ -92,8 +92,70 @@ Remember that the steps and gem version mentioned here are based on information 
 
 
 
+how to add inforation  in the sign u ost or to user model "ith the user's email, password, and other required information.", also what if am using name spacing and vesrioning, do i need to chanhe th at or do I nned to put this line in the name space,"mount_devise_token_auth_for 'User', at: 'auth'"
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+  
+  When you want to add additional information to the sign-up or user registration process, such as the user's name or other required information, you can achieve this by customizing the user registration process in your Rails application. To do this, you can follow these steps:
+
+1. **Customize the User Model:**
+   Modify your `User` model to include the necessary fields. For example, if you want to include a `name` field, your `user.rb` model might look like this:
+
+   ```ruby
+   class User < ActiveRecord::Base
+     include DeviseTokenAuth::Concerns::User
+
+     # Additional fields
+     validates :name, presence: true
+     # Add any other validations or associations you need
+   end
+   ```
+
+2. **Update Strong Parameters:**
+   Ensure that the additional fields are permitted in the strong parameters in your `RegistrationsController`. If you don't have a custom registrations controller, you can create one to handle the sign-up process. Here's an example:
+
+   ```ruby
+   # app/controllers/v1/registrations_controller.rb (if using namespacing)
+
+   module V1
+     class RegistrationsController < DeviseTokenAuth::RegistrationsController
+       private
+
+       def sign_up_params
+         params.permit(:name, :email, :password, :password_confirmation)
+       end
+
+       # ...
+     end
+   end
+   ```
+
+   In this example, we've added the `:name` parameter to the `sign_up_params` method to permit the `name` field during sign-up. You can customize this method further to permit additional fields as needed.
+
+3. **Update the Routes:**
+   To use the customized registrations controller, update your routes to point to it:
+
+   ```ruby
+   # config/routes.rb
+
+   namespace :v1 do
+     mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+       registrations: 'v1/registrations' # Adjust the namespace and controller name as needed
+     }
+   end
+   ```
+
+   Here, we've specified the `registrations` controller as `'v1/registrations'`. Make sure the controller namespace and name match your application's naming conventions.
+
+With these changes, your sign-up process allows users to provide additional information such as a name, alongside the email and password. You can further customize the registration process to suit your application's specific requirements.
+
+If you're using namespacing and versioning, as shown in your code, you should update the `mount_devise_token_auth_for` line as demonstrated above. The `controllers` option allows you to specify the controller to handle the registration process within your specified namespace.
+
+Please ensure that the versioning, namespace, and controller names align with your application's naming conventions and directory structure.
 
 
+
+  
 
 
 
