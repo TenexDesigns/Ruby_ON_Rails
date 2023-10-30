@@ -38,3 +38,77 @@ So, the "DELETE '/auth/sign_out'" endpoint essentially marks the users authentic
 
 
   .....
+
+
+
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+   When a user signs out of a devise_token_auth application, the following steps are taken:
+
+1. The user's authentication token is blacklisted. This prevents the user from using their token to authenticate to the application in the future.
+2. The user's session is deleted. This prevents the user from using their session to access protected resources in the application.
+3. The user is redirected to the root path of the application.
+
+To sign out, a user must send a DELETE request to the `/auth/sign_out` endpoint. The request body must include the user's authentication token.
+
+The `/auth/sign_out` endpoint will return a JSON response with the following status codes:
+
+* **204 No Content:** The user was successfully signed out.
+* **401 Unauthorized:** The user's authentication token is invalid or has been blacklisted.
+
+Here is an example of a DELETE request to the `/auth/sign_out` endpoint:
+
+```
+DELETE /auth/sign_out
+Authorization: Bearer YOUR_AUTH_TOKEN
+```
+
+Here is an example of a JSON response from the `/auth/sign_out` endpoint:
+
+```json
+{
+  "status": "success"
+}
+```
+
+Once a user has signed out, they will no longer be able to access protected resources in the application until they sign in again.
+
+Here are some additional things to keep in mind about signing out with devise_token_auth:
+
+* If a user has multiple authentication tokens, all of their tokens will be blacklisted when they sign out.
+* If a user has a session open on multiple devices, all of their sessions will be deleted when they sign out.
+* If a user is signed in to multiple applications that use devise_token_auth, signing out of one application will not sign them out of the other applications.
+
+I hope this helps!
+
+
+
+
+
+   ....
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
