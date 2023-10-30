@@ -1,12 +1,14 @@
 As of my knowledge cutoff date in January 2022, "devise_token_auth" was a popular gem for token-based authentication in Ruby on Rails applications, but it may not be officially supported in Rails 7 because the Rails ecosystem evolves over time, and new versions of Rails can introduce changes that may affect gem compatibility. To check if "devise_token_auth" is compatible with Rails 7, you should review the gem's documentation and GitHub repository for the latest updates and compatibility information.
 
-Assuming that "devise_token_auth" is compatible with Rails 7 or an alternative solution is available, here's how you can implement user authentication with sign-in, sign-up, and sign-out functionality in a Rails application:
+Assuming that "devise_token_auth" is compatible with Rails 7 or an alternative solution is available, here's how you can implement user authentication with sign-in,
+  sign-up, and sign-out functionality in a Rails application:
 
 **Step 1: Add "devise_token_auth" to Your Gemfile**
 
 Assuming that "devise_token_auth" is compatible with Rails 7, add it to your Rails application's Gemfile:
 
 ```ruby
+ gem 'devise' 
 gem 'devise_token_auth'
 ```
 
@@ -17,7 +19,7 @@ Then, run `bundle install` to install the gem.
 Next, run the generators provided by "devise_token_auth" to set up the necessary configurations:
 
 ```bash
-rails generate devise_token_auth:install User auth
+rails generate devise_token_auth:install
 ```
 
 This command will generate the required migrations, routes, and configurations for authentication.
@@ -29,6 +31,29 @@ Run the migrations to create the necessary database tables:
 ```bash
 rails db:migrate
 ```
+  INCASE OF ANY ERROR   " undefined method 'devise' for User"
+  --------------------------------------------------------------------------------------------------------------------------------------------------------------
+  I ran into a similar issue when I was configuring Devise (Ruby 2.4.1 / Rails 5.1.2). In my case it seems that the following files were not created after I executed: rails generate devise:install for the first time.
+
+create  config/initializers/devise.rb
+create  config/locales/devise.en.yml
+Steps that I followed:
+
+1) Comment from your MODEL the following:
+
+  #devise :database_authenticatable, :registerable,
+     #:recoverable, :rememberable, :trackable, :validatable
+2) Comment from routes.rb:
+
+#devise_for :sessions
+3) Run rails generate devise:install again, you should see that some files are created this time. Hope you it works !
+
+4) Uncomment from 1) & 2)
+
+5) Execute: rake db:migrate
+
+And at this point it should work. Hope it helps someone !
+  --------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 **Step 4: Define User Model and Associations**
 
