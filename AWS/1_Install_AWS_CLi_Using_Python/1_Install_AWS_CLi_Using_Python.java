@@ -103,6 +103,11 @@ For more detailed information and advanced usage of the EB CLI, refer to the [of
 
 aws configure access and security keys 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+root access key  ---> AKIAYMMVN2RNQKKTQ656
+secutiry key  ----. 8a/gTqgOESna5ujIt3XdpFHG6eYGKbVfyneFQnmw
+
+   
 In the above ontext I have run aws configure and wnwterd my data "AWS Access Key ID [None]: AKIAYMMVN2RN7HM5S2EU
 AWS Secret Access Key [None]: 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
 Default region name [None]:us-east-1
