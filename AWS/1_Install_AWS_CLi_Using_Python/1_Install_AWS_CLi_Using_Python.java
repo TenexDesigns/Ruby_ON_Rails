@@ -95,6 +95,19 @@ For more detailed information and advanced usage of the EB CLI, refer to the [of
 
 
 
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
+
+
+
+aws configure access and security keys 
+----------------------------------------------------------------------------------------------------------------------------------------------------------------
+In the above ontext I have run aws configure and wnwterd my data "AWS Access Key ID [None]: AKIAYMMVN2RN7HM5S2EU
+AWS Secret Access Key [None]: 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
+Default region name [None]:us-east-1
+Default output format [None]: table", now do I have accesss to aws , and how and what can I do in the above context 
+
 
 
 
