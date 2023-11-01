@@ -104,6 +104,9 @@ For more detailed information and advanced usage of the EB CLI, refer to the [of
 aws configure access and security keys 
 ----------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+   george-2      access-key ==== AKIAYMMVN2RNUUK56T7Z
+                 secrete access key ===  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
+
 root access key  ---> AKIAYMMVN2RNQKKTQ656
 secutiry key  ----. 8a/gTqgOESna5ujIt3XdpFHG6eYGKbVfyneFQnmw
 
