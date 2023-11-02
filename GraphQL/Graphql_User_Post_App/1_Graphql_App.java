@@ -10,7 +10,9 @@
   rails g model User email:string name:string  
 
 The above genarator brings this 
-  
+
+  user_model.rb
+  ------------------------
         class User < ApplicationRecord
               has_many :posts
         end
@@ -21,7 +23,9 @@ The above genarator brings this
    rails g model Post user:belongs_to title:string body:text
 
 The above genarator brings this 
-  
+
+  post_model.rb
+  ------------------
         class Post < ApplicationRecord
               belongs_to :user
         end
@@ -31,7 +35,10 @@ The above genarator brings this
 
   4_ Then you need the follwing gems
 
+gem.file
+  -------------------
 
+  
   gem 'graphql', '~> 2.1', '>= 2.1.5'
 
   This is nneded for devlopment reasons
@@ -47,6 +54,9 @@ end
 
 
 5_ This is to create fake data 
+
+  seed.rb
+  ---------
 
   require 'faker'
 
@@ -120,7 +130,7 @@ end
 
 
 
-8_  Types
+8_  Types   -->  They enable you to query your data, and determine which data types will be retured thap parten to the requesrted data including the associations
   Types (Schema):
 
 PostType and UserType are GraphQL object types representing the structure of the data you can query in your API.
@@ -136,6 +146,8 @@ User Type
 
   this will be genrated but I have addded and removed some fields
 
+user_type.rb
+------------------------
   module Types
   class UserType < Types::BaseObject
     field :id, ID, null: false
@@ -150,11 +162,107 @@ end
 
 
 
-Post Tye
+Post Type
+
+    rails g graphql:object post
+
+  this will be genrated but I have addded and removed some fields
+
+  post_type.rb
+------------------------
+  module Types
+  class PostType < Types::BaseObject
+    field :id, Integer, null: false
+    field :title, String, null: false
+    field :body, String, null: false
+  end
+end
 
 
 
 
 
+  query_type.rb                --->This is where the database calls occure
+------------------------------
+  module Types
+  class QueryType < Types::BaseObject
+    # /users
+    field :users, [Types::UserType], null: false
+
+    def users
+      User.all
+    end
+
+    # /user/:id
+    field :user, Types::UserType, null: false do
+      argument :id, ID, required: true
+    end
+
+    def user(id:)
+      User.find(id)
+    end
+  end
+end
+
+
+
+
+
+
+
+9_ Mutations - The enable you to make changes to the data,     to create ,edit update and delet the data
+
+
+
+  This one Emables you to create a user
+
+
+
+  class Mutations::CreateUser < Mutations::BaseMutation
+  argument :name, String, required: true
+  argument :email, String, required: true
+
+  field :user, Types::UserType, null: false
+  field :errors, [String], null: false
+
+  def resolve(name:, email:)
+    user = User.new(name: name, email: email)
+		if user.save
+      {
+       	user: user,
+       	errors: []
+      }
+    else
+      {
+      	user: nil,
+        errors: user.errors.full_messages
+      }
+    end
+  end
+end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
 
   
