@@ -1,3 +1,15 @@
+"In a GraphQL Rails API app, the controllers provided by Devise and Devise Token Auth are not used directly.
+  Instead, you will primarily use mutations and resolvers to handle authentication and user management."
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------
 To implement token-based authentication in a GraphQL Rails API app with Devise and Devise Token Auth, as well as apply custom validations to email and password, follow these steps:
 
 **Step 1: Add Devise and Devise Token Auth to Your Gemfile**
