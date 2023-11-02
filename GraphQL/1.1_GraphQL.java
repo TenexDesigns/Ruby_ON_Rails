@@ -1,4 +1,5 @@
-GraphQL is a query language for APIs that allows clients to request exactly the data they need. It is a popular choice for building APIs because it is flexible, efficient, and easy to use.
+GraphQL is a query language for APIs that allows clients to request exactly the data they need. It is a popular choice for building APIs because it is flexible, 
+  efficient, and easy to use.
 
 To use GraphQL with Rails, you can use the `graphql` gem. This gem provides a number of features that make it easy to build GraphQL APIs with Rails, including:
 
