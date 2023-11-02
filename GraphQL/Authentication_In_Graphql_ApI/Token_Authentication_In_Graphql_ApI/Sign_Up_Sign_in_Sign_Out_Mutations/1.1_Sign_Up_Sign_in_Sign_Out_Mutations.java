@@ -1,4 +1,4 @@
-Certainly! Below, I'll provide you with examples of how to create custom mutations and resolvers for user sign-up, sign-in, and sign-out in a GraphQL Rails API. We'll assume that you have a `User` model and that you've already set up Devise and Devise Token Auth.
+Certainly! Below, Ill provide you with examples of how to create custom mutations and resolvers for user sign-up, sign-in, and sign-out in a GraphQL Rails API. We'll assume that you have a `User` model and that you've already set up Devise and Devise Token Auth.
 
 **1. Sign-Up Mutation:**
 
@@ -130,4 +130,27 @@ mutation {
 
 Similarly, you can use the `signInUser` mutation for user sign-in and the `signOutUser` mutation for user sign-out in your GraphQL queries.
 
+
+
+
+  To use these mutations in your GraphQL API, you need to add them to your schema and define the corresponding resolvers.
+
+Schema:
+   # app/graphql/types/mutation_type.rb
+   module Types
+     class MutationType < Types::BaseObject
+       field :signUpUser, mutation: Mutations::SignUpUser
+       field :signInUser, mutation: Mutations::SignInUser
+       field :signOutUser, mutation: Mutations::SignOutUser
+     end
+   end
+In this example, we add the signUpUser, signInUser, and signOutUser mutations to the MutationType in your schema.
+
+Resolvers:
+You don't need to define explicit resolvers for these mutations since they use the default resolver behavior. However, make sure you have the corresponding Types::UserType defined for the user field in the mutations.
+
+That's it! You have now created mutations and resolvers for user sign-up, sign-in, and sign-out in your GraphQL Rails API. You can test these mutations using a GraphQL client or tool like GraphiQL or GraphQL Playground.
+
+
+  ..
   ..
