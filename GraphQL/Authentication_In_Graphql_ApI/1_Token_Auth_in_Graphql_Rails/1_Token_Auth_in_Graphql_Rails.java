@@ -4,6 +4,7 @@ Implementing token-based authentication in a GraphQL Rails API application typic
    First, make sure you have Devise and Devise Token Auth set up in your Rails application. You can add them to your `Gemfile` and run `bundle install`:
 
    ```ruby
+   gem 'graphql'
    gem 'devise'
    gem 'devise_token_auth'
    ```
@@ -18,7 +19,7 @@ Implementing token-based authentication in a GraphQL Rails API application typic
    Set up Devise Token Auth:
 
    ```bash
-   rails generate devise_token_auth:install User auth
+rails generate devise_token_auth:install
    ```
 
    Run the migrations to apply the changes:
@@ -32,6 +33,20 @@ Implementing token-based authentication in a GraphQL Rails API application typic
 2. **Set Up GraphQL**:
    Configure GraphQL in your application if you haven't already. You can use the 'graphql' gem to set up GraphQL endpoints and types.
 
+
+  --- A_  Use  graphql gem
+
+           this will genrate the  files and folders used by grapql
+         
+           rails g graphql:install
+
+----B Create User type   ---They enable you to query your data, and determine which data types will be retured thap parten to the requesrted data including the associations
+   
+   User Type
+  
+  rails g graphql:object user
+
+   
 3. **Create Custom Mutations for Authentication**:
    In your GraphQL application, you can create custom mutations for sign-up, sign-in, and sign-out.
 
