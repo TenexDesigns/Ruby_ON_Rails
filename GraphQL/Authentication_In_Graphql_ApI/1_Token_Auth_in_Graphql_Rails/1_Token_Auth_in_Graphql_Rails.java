@@ -265,7 +265,7 @@ module Resolvers
 
     def authenticate_user(context)
       # Check if the user's token is present in the session
-      token = context[:session][:token]
+      #token = context[:session][:token]
       raise GraphQL::ExecutionError, 'Authentication required' if token.nil?
 
       # Perform additional authentication checks, e.g., validate the token
@@ -584,6 +584,139 @@ This should resolve the "uninitialized constant" error you're encountering.
       
    
 
+
+
+
+
+
+
+
+
+
+
+ERRORS ------>   "Your application has sessions disabled" 
+
+----------------------------------------------------------------------------------------------------------------------
+
+
+The error message you're encountering, "Your application has sessions disabled. To write to the session, you must first configure a session store," suggests that your application is trying to write to a session, but the session store is not properly configured. It's important to understand that the code you provided is trying to set a token in the session, but based on the error message, it seems that sessions are disabled or not configured.
+
+If your application is using token-based authentication (which is common for GraphQL APIs), you don't typically use server-side sessions. Instead, authentication is handled via tokens, and the session isn't necessary for storing user authentication information. In such cases, you should avoid using `context[:session]` to store tokens.
+
+Here's how you can modify your code to remove the session-related code for token-based authentication:
+
+1. In your `SignUpUser` mutation and `SignInUser` mutation, remove the lines where you set the token in the session:
+
+   ```ruby
+   context[:session][:token] = token
+   ```
+
+2. In your `UserResolver`, you can remove the `context[:session][:token]` check as well as the `context[:session]` usage, as it's not needed for token-based authentication:
+
+   ```ruby
+   def authenticate_user(context)
+     # Remove the check for session token
+     # Remove the context[:session] usage
+     # Add your token validation logic if necessary
+   end
+   ```
+
+For token-based authentication, you typically provide the token with each GraphQL request, often in the request headers. You then validate the token and extract user information from it in your authentication logic. There's no need to use sessions for storing authentication tokens.
+
+If you want to use sessions for some specific reason in your application, you'll need to ensure that your Rails application is properly configured to use sessions. This might involve setting up a session store (e.g., Redis, ActiveRecord) and configuring it in your `config/application.rb` or `config/initializers/session_store.rb` file.
+
+Make sure that your application's configuration aligns with your chosen authentication
+
+
+
+
+
+
+ABOVE SOLUTION  IN CODE
+-------------
+
+
+
+
+To remove the use of `context[:session]` and resolve the "Your application has sessions disabled" error, you should follow these steps:
+
+1. In your `SignInUser`, `SignOutUser`, `SignUpUser`, and `UserResolver` mutations and resolver, remove all references to `context[:session]`.
+
+2. Ensure you have implemented token-based authentication correctly using token headers or any other appropriate method for your GraphQL API. For token-based authentication, you typically pass the token in the request headers. You can validate the token and authenticate the user using the token.
+
+Here's an updated example for your files:
+
+1. **GraphqlController (graph_controller.rb):**
+
+   Remove the line that includes the session in the context:
+
+   ```ruby
+   context = {
+     current_user: current_user  # Store the current user for authorization
+   }
+   ```
+
+2. **SignInUser (sign_in_user.rb):**
+
+   Remove the line that sets the token in the session:
+
+   ```ruby
+   context[:session][:token] = token
+   ```
+
+   You should authenticate users based on the token provided in the request headers.
+
+3. **SignOutUser (sign_out_user.rb):**
+
+   In the `SignOutUser` mutation, you don't need the session for token-based authentication. The token can be invalidated or removed on the client side.
+
+4. **SignUpUser (sign_up_user.rb):**
+
+   Remove the line that sets the token in the session:
+
+   ```ruby
+   context[:session][:token] = token
+   ```
+
+   The token can be returned to the client without involving sessions.
+
+5. **UserResolver (user_resolver.rb):**
+
+   Remove the code that checks for the session token in `authenticate_user`:
+
+   ```ruby
+   token = context[:session][:token]
+   ```
+
+   The authentication process should be token-based, not session-based.
+
+By making these changes, you'll ensure that your application is not attempting to use sessions for token-based authentication, and the error "Your application has sessions disabled" should be resolved. Remember to implement token-based authentication correctly to handle user authentication and authorization based on the tokens provided with each GraphQL request.
+
+
+
+
+   ....
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
 
 
    
