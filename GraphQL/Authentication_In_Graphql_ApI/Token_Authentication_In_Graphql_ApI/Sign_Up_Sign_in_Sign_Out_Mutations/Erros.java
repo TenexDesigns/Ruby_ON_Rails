@@ -66,4 +66,85 @@ Here are some steps to troubleshoot and potentially resolve this issue:
 
 After making sure that all of these aspects are correct, try running your GraphQL mutation again. If you still encounter the error, please double-check the file and class names, and ensure that there are no typos or other issues that could be preventing the class from being loaded correctly.
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+[]=' for nil:NilClass"   error 
+----------------------------------------------------------------------------------------------------------------------------
+
+   The error "undefined method `[]=' for nil:NilClass" typically occurs when you're trying to set a value in a hash or hash-like structure that is `nil`. In this case, it seems that the `context[:session]` is `nil` when you try to set a value in it.
+
+To resolve this issue, you should make sure that you have initialized `context[:session]` before attempting to set a value in it. You can do this by checking if `context[:session]` is `nil` and initializing it as an empty hash if it is. Here's how you can modify your `SignUpUser` mutation:
+
+```ruby
+module Mutations
+  class SignUpUser < BaseMutation
+    argument :email, String, required: true
+    argument :password, String, required: true
+    argument :name, String, required: false
+
+    field :user, Types::UserType, null: true
+    field :token, String, null: true
+    field :errors, [String], null: true
+
+    def resolve(email:, password:, name: nil)
+      user = User.new(email: email, password: password, name: name)
+
+      if user.save
+        token = user.create_new_auth_token
+
+        # Check if context[:session] is nil and initialize it if necessary
+        context[:session] ||= {}
+        context[:session][:token] = token # Store token in session for future requests
+
+        {
+          user: user,
+          token: token['access-token'],
+          errors: [],
+        }
+      else
+        {
+          user: nil,
+          token: nil,
+          errors: user.errors.full_messages,
+        }
+      end
+    end
+  end
+end
+```
+
+By adding `context[:session] ||= {}`, you ensure that the `context[:session]` is initialized as an empty hash if it's `nil`, and then you can safely set the `token` value within it.
+
+This change should resolve the "undefined method `[]=' for nil:NilClass" error when signing up a user using the `SignUpUser` mutation.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
   
