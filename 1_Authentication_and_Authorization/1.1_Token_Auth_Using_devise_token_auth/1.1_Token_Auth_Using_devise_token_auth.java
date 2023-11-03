@@ -19,6 +19,7 @@ Then, run `bundle install` to install the gem.
 Next, run the generators provided by "devise_token_auth" to set up the necessary configurations:
 
 ```bash
+  rails generate devise:install
 rails generate devise_token_auth:install
 ```
 
