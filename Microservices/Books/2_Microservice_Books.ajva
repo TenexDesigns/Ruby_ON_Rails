@@ -1,0 +1,31 @@
+Sure, here are some resources that you can use to learn about Microservices with Rails, Kubernetes with Rails, and working on projects with Rails:
+
+**Microservices with Rails:**
+
+1. "Building Microservices" by Sam Newman is a good book to understand the microservice architecture. It's not specific to Rails but it provides a good understanding of the concepts [Source 2](https://medium.com/javarevisited/top-6-books-to-learn-microservices-in-depth-1a58bde35490).
+   
+2. "Rails AntiPatterns: Best Practice Ruby on Rails Refactoring" is a book that can help improve your Rails applications, which could be useful when building microservices [Source 7](https://blog.railwaymen.org/8-ruby-on-rails-books-you-should-read-to-become-a-better-developer).
+   
+3. The article "The Ruby Unbundled Series: Add Microservices to your Rails App in Minutes" provides a practical guide to implementing microservices in a Rails application [Source 6](https://www.codementor.io/@devgraph/the-ruby-unbundled-series-add-microservices-to-your-rails-app-in-minutes-1iq74e1t9p).
+
+**Kubernetes with Rails:**
+
+1. "Kubernetes: Up and Running" by Kelsey Hightower, Brendan Burns, and Joe Beda is a comprehensive guide to Kubernetes, which can help you understand how to use it with Rails applications.
+
+2. "Rails and Kubernetes: A Guide to Using Them Together" is a blog post that provides a practical guide to using Rails with Kubernetes [Source 14](https://release.com/blog/rails-and-kubernetes-a-guide-to-using-them-together).
+
+3. "Deploying a Rails App to a Kubernetes cluster" is a tutorial that guides you through the process of deploying a Rails application to a Kubernetes cluster [Source 23](https://www.civo.com/learn/deploying-a-rails-app-to-a-kubernetes-cluster).
+
+**Projects with Rails:**
+
+1. "Ruby on Rails Tutorial (Rails 5)" by Michael Hartl is a comprehensive introduction to Rails that includes building several projects.
+
+2. "Agile Web Development with Rails 6" by Sam Ruby is a book that covers building a Rails application in an agile development environment.
+
+3. "Crafting Rails 4 Applications" by José Valim is a book that covers advanced Rails topics through several projects.
+
+Remember, while books and tutorials are great resources, the best way to learn is often by doing. Try to build your own projects using Rails, microservices, and Kubernetes to solidify your understanding.
+
+
+
+...
