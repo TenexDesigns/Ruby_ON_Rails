@@ -573,6 +573,60 @@ So, you don't need to explicitly permit or sanitize parameters in the same way y
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+ERRORS ------>   "uninitialized constant GraphqlController::GraphqlSchema,"  THIS IS AN ERRO WE ENCOUNTERED
+
+----------------------------------------------------------------------------------------------------------------------
+
+The error message you're encountering, "uninitialized constant GraphqlController::GraphqlSchema," suggests that there's a problem finding the GraphQL schema class in your application.
+
+In your `GraphqlController`, you have this line of code:
+
+```ruby
+result = GraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+```
+
+It seems like your GraphQL schema class is named `TokenSchema`, as seen in your `token_schema.rb` file. If you are using a schema named `TokenSchema`, you should update the line in your `GraphqlController` to:
+
+```ruby
+result = TokenSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+```
+
+Make sure that the schema class name used in your controller matches the actual schema class you have defined in your application.
+
+So, in summary, update your `GraphqlController` to use `TokenSchema` instead of `GraphqlSchema` to match the name of your GraphQL schema class:
+
+```ruby
+result = TokenSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
+```
+
+This should resolve the "uninitialized constant" error you're encountering.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      
    
 
 
