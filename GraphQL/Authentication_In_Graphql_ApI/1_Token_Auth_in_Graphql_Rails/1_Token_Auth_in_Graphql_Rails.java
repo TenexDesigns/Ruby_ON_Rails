@@ -82,7 +82,7 @@ rails generate devise_token_auth:install
 
          # Generate an authentication token and set it in the response
          token = user.create_new_auth_token
-         context[:session][:token] = token
+         #context[:session][:token] = token
 
          {
            user: user,
@@ -118,7 +118,7 @@ rails generate devise_token_auth:install
 
          if user && user.valid_password?(password)
            token = user.create_new_auth_token
-           context[:session][:token] = token
+           #context[:session][:token] = token
 
            {
              user: user,
@@ -225,7 +225,7 @@ class GraphqlController < ApplicationController
 
     context = {
       session: session,  # Store session data in the context
-      current_user: current_user  # Store the current user for authorization
+      #current_user: current_user  # Store the current user for authorization
     }
 
     result = GraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
