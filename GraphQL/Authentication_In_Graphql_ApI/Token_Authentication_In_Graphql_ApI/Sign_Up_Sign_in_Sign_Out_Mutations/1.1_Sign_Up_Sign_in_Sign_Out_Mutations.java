@@ -22,7 +22,11 @@ module Mutations
 
       if user.save
         token = user.create_new_auth_token
+
+        # Check if context[:session] is nil and initialize it if necessary
+        context[:session] ||= {}
         context[:session][:token] = token # Store token in session for future requests
+
         {
           user: user,
           token: token['access-token'],
@@ -38,6 +42,7 @@ module Mutations
     end
   end
 end
+
 ```
 
 In the code above:
