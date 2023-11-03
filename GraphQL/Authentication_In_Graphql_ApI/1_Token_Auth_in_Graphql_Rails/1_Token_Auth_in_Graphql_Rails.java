@@ -477,8 +477,103 @@ The arguments for the `call` method are provided by GraphQL-Ruby based on the fi
 
    
 
+HOW TO SEND AND RECEIVE ARGUMENT
+-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 
+In GraphQL, arguments for a resolver are not explicitly sent as a single `params` object like in traditional RESTful APIs. Instead, the arguments for a resolver are automatically generated based on the GraphQL query's structure and the schema definition. When you define a field in your GraphQL schema, you can specify which arguments it accepts, and these arguments are automatically passed to the resolver's `call` method when that field is queried in a GraphQL request. GraphQL-Ruby takes care of parsing the query and providing the resolver with the relevant arguments.
+
+For example, let's say you have a GraphQL query like this:
+
+```graphql
+query {
+  createPost(title: "My New Post", content: "This is the content of the post") {
+    id
+    title
+  }
+}
+```
+
+In this query, `createPost` is a field, and it accepts two arguments: `title` and `content`. When this query is executed, GraphQL-Ruby will automatically provide these arguments to the resolver for the `createPost` field, and you can access them as `args[:title]` and `args[:content]` in the resolver's `call` method, just like in your `CreatePostResolver` example.
+
+Regarding parameter sanitization, GraphQL inherently provides a mechanism for controlling which fields and arguments are accessible to clients. In GraphQL, you specify exactly which fields and arguments are allowed for each type and field in your schema. By default, only fields and arguments that you explicitly define in your schema are accessible to clients. Any other fields or arguments will be rejected by the server.
+
+You don't need to use `params.permit` or similar mechanisms commonly used in RESTful APIs for parameter sanitization. Instead, you have fine-grained control over your schema definition, and you can specify exactly which fields and arguments are allowed. This is one of the strengths of GraphQL, as it allows you to define a strict schema that matches your application's data model and only exposes the fields and arguments that you want to make available.
+
+If you ever want to restrict certain arguments for a field based on authentication or authorization, you can include logic in your resolvers to perform those checks and decide whether to allow or deny access to certain arguments. This is typically done within the resolver functions based on your application's specific requirements.
+
+In your `CreatePostResolver`, you have authentication logic to check if the user is authorized to create a post. If the user is authorized, you proceed with creating the post, and if not, you raise a `GraphQL::ExecutionError` to handle unauthorized access. This is a common approach to adding authentication and authorization logic to your resolvers.
+
+Overall, GraphQL provides a robust way to control and define what data is accessible through your API, and you can use resolvers to enforce the business logic and access control as needed.
+
+
+
+
+
+
+
+
+   
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ANOTHER VESRION OF THE ANSWER IN THE ABOVE CONTEXT
+-----------------------------------------------------------------------------------------------------------------
+
+   In GraphQL, arguments are not sent as part of the request URL or as a single "params" object like in traditional RESTful APIs. Instead, arguments for specific fields are defined in the GraphQL schema, and clients specify them directly in their queries. GraphQL queries allow clients to request only the data they need, and the server responds with the requested data in a structured format.
+
+Here's how arguments work in GraphQL:
+
+1. Field Definition: In your GraphQL schema, when you define a field, you can specify the arguments it accepts. For example, you might define a field like this:
+
+   ```graphql
+   type Query {
+     getUser(id: ID!): User
+   }
+   ```
+
+   In this example, the `getUser` field accepts an argument named `id`, which is required and of type `ID`.
+
+2. Query with Arguments: When a client wants to retrieve data for a field that accepts arguments, they specify the arguments in their GraphQL query. For example:
+
+   ```graphql
+   query {
+     getUser(id: "123") {
+       name
+       email
+     }
+   }
+   ```
+
+   In this query, the client is requesting the `name` and `email` fields for the `User` with an `id` of "123."
+
+3. Resolver Usage: In your resolver for the `getUser` field, you will receive the `id` argument as a parameter in the `call` method. You can access and use this argument to customize the logic for retrieving the user with the specified ID.
+
+In your resolvers, you don't need to worry about parameter sanitization or using `params.permit` like in traditional RESTful APIs. GraphQL provides a clear schema definition that specifies the valid arguments for each field. The arguments are defined in your schema, and GraphQL-Ruby enforces that only valid arguments are allowed when executing queries.
+
+GraphQL-Ruby automatically validates incoming queries and ensures that they conform to the defined schema. If a client tries to request fields or arguments that are not part of the schema, GraphQL-Ruby will reject the query and return an error.
+
+So, you don't need to explicitly permit or sanitize parameters in the same way you would in a RESTful API. Instead, you rely on the schema definition to validate and restrict the arguments that can be used in queries. This is one of the benefits of GraphQL, as it helps reduce over-fetching and under-fetching of data and allows clients to request only the data they need.
+
+
+
+
+
+
+
+   
 
 
 
