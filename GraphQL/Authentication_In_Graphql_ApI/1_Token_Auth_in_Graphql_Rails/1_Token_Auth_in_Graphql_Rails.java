@@ -12,7 +12,7 @@ Implementing token-based authentication in a GraphQL Rails API application typic
 
    ```bash
    rails generate devise:install
-   rails generate devise User
+
    ```
 
    Set up Devise Token Auth:
