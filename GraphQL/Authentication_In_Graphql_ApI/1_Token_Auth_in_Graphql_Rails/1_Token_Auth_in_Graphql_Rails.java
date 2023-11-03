@@ -328,112 +328,67 @@ In your resolvers, you can use the authentication token stored in the session to
 
 
 
-   Configuring the context in the GraphQL controller and using the authentication token in resolvers are essential steps for implementing token-based authentication in a GraphQL Rails API. Below, I'll provide code samples and instructions for these two aspects:
+You can use the `UserResolver` I mentioned earlier as a building block for ensuring user authentication in other resolvers. When implementing authentication in resolvers, you can call the `UserResolver` to verify that the user is signed in before allowing them to perform specific actions. Here's how it would look in another resolver:
 
-**1. Configure the Context in the GraphQL Controller:**
-
-In your GraphQL controller, you need to configure the context to store and retrieve the authentication token. This allows you to access the user's token when making authenticated requests.
-
-Assuming your `GraphqlController` looks like this:
+Suppose you have another resolver for creating a new post, and you want to ensure that only authenticated users can create posts. Here's an example of how you can use the `UserResolver` in this context:
 
 ```ruby
-# app/controllers/graphql_controller.rb
-class GraphqlController < ApplicationController
-  # ...
-end
-```
-
-You should configure the context within this controller:
-
-```ruby
-# app/controllers/graphql_controller.rb
-class GraphqlController < ApplicationController
-  # ...
-
-  def execute
-    variables = prepare_variables(params[:variables])
-    query = params[:query]
-    operation_name = params[:operationName]
-
-    context = {
-      session: session,  # Store session data in the context
-      current_user: current_user  # Store the current user for authorization
-    }
-
-    result = GraphqlSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
-    render json: result
-  rescue StandardError => e
-    raise e unless Rails.env.development?
-    handle_error_in_development(e)
-  end
-
-  # ...
-
-end
-```
-
-Here, we add two key pieces of information to the context:
-
-- `session`: This stores the user's session data, including the authentication token, which can be accessed within the resolvers.
-
-- `current_user`: This is typically set by Devise and Devise Token Auth, and it stores the authenticated user.
-
-**2. Use the Authentication Token in Resolvers:**
-
-Now that you've configured the context in the controller, you can access the user's session data and authentication token in your GraphQL resolvers.
-
-Let's assume you have a resolver for fetching a user's data, and you want to ensure that it can only be accessed by authenticated users:
-
-```ruby
-# app/graphql/resolvers/user_resolver.rb
+# app/graphql/resolvers/create_post_resolver.rb
 module Resolvers
-  class UserResolver
-    def call(_obj, _args, context)
-      authenticate_user(context)
-      current_user(context)
+  class CreatePostResolver
+    def call(_obj, args, context)
+      user = user_resolver(context)
+
+      # Your authentication logic here, e.g., checking user roles or permissions
+      if user
+        # Create a new post here
+        post = Post.create(
+          title: args[:title],
+          content: args[:content],
+          user: user
+        )
+
+        # Return the created post
+        post
+      else
+        # Handle unauthorized access
+        raise GraphQL::ExecutionError, 'Unauthorized: You must be signed in to create a post'
+      end
     end
 
     private
 
-    def authenticate_user(context)
-      # Check if the user's token is present in the session
-      token = context[:session][:token]
-      raise GraphQL::ExecutionError, 'Authentication required' if token.nil?
-
-      # Perform additional authentication checks, e.g., validate the token
-      # You can use Devise Token Auth's `TokenValidationService` here.
-    end
-
-    def current_user(context)
-      # Retrieve the authenticated user using Devise's `current_user` method
-      context[:current_user]
+    def user_resolver(context)
+      UserResolver.new.call(nil, nil, context)
     end
   end
 end
 ```
 
-In this resolver, we have:
+In this example, the `CreatePostResolver` calls the `UserResolver` to authenticate the user. If the user is authenticated, you can proceed to create the post. If the user is not signed in, you raise a GraphQL execution error to handle unauthorized access.
 
-- The `authenticate_user` method that checks if the user's token is present in the session. You can implement additional authentication checks here, such as token validation.
+You can follow a similar pattern in other resolvers where you need to perform authentication checks. The `UserResolver` is a reusable component that helps ensure user authentication in different parts of your GraphQL API.
 
-- The `current_user` method, which retrieves the authenticated user using Devise's `current_user` method. This provides you with the user's data for further actions.
+   
 
-Now you can use this resolver to fetch user data, and it will ensure that only authenticated users can access it:
 
-```graphql
-# Your GraphQL query
-query {
-  user {
-    id
-    email
-    name
-  }
-}
-```
 
-The `UserResolver` will validate the user's authentication token and return the user's data if the token is valid and the user is authenticated.
 
-By configuring the context and using the authentication token in your resolvers, you ensure that only authenticated users can access specific parts of your GraphQL API and perform actions based on the user's authorization.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
