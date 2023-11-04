@@ -1,3 +1,6 @@
+DSL --------->  A Domain Specific Language is a programming language with a higher level of abstraction optimized for a specific class of problems. A DSL uses the concepts and rules from the field or domain.
+
+
 Yes, Ruby on Rails (often referred to as Rails) is a web development framework that utilizes a Domain-Specific Language (DSL) for building web applications. Rails is designed to be both developer-friendly and productive, and it employs several DSLs and conventions to make web development in Ruby easier and more elegant. Here are some of the primary DSLs used in Rails:
 
 **1. Routing DSL:**
